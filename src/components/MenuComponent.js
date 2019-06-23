@@ -1,50 +1,43 @@
-import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
+import React from "react";
+import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
 
-//Create new component Menu as a pure presentational component
-class Menu extends Component {
+//Changed a presentational component to functional component since this componet works only with the props sent by
+//its parent and there are no any local states or lifecycle hooks required
 
-    constructor(props) {
-        super(props);
+//dish and onClick are javaScript objects, so needs to be inside curly braces
+function RenderMenuItem({ dish, onClick }) {
+    return (
+        // tag=li indicates these are going to be a list item
+        //Pass dishId to onClick prop in Main component which sets the selectedDish state
+        <Card onClick={() => onClick(dish.id)}>
+            <CardImg width="100%" src={dish.image} alt={dish.description} />
+            <CardImgOverlay>
+                <CardTitle>{dish.name}</CardTitle>
+            </CardImgOverlay>
+        </Card>
+    );
+}
 
-        console.log("Menu component constructor invoked");
-    }
-
-    //Call new lifecycle method
-    componentDidMount() {
-        //Do something after the componennt is mounted in DOM
-        console.log("Menu component componentDidMount invoked");
-    }
-
-    render() {
-
-        const menu = this.props.dishes.map((dish) => {
-            return (
-                //React requires a key while rendering a list of items to identify each items uniquely
-                <div key={dish.id} className="col-12 col-md-5 m-1">
-                    {/* tag=li indicates these are going to be a list item */}
-                    {/* Pass dishId to onClick prop in Main component which sets the selectedDish state */}
-                    <Card onClick={() => this.props.onClick(dish.id)}>
-                        <CardImg width="100%" src={dish.image} alt={dish.description}></CardImg>
-                        <CardImgOverlay>
-                            <CardTitle>{dish.name}</CardTitle>
-                        </CardImgOverlay>
-                    </Card>
-                </div>
-            );
-        });
-
-        console.log("Menu component render invoked");
-
+//Same thing as above but an arrow function
+//This const Menu is the component in MainComponent, props is the props passed from MainComponent
+const Menu = props => {
+    //ForEach dishes array with map function and return individual ment items as react component
+    const menu = props.dishes.map(dish => {
         return (
-            <div className="container">
-                <div className="row">
-                    {menu}
-                </div>
+            //React requires a key while rendering a list of items to identify each items uniquely
+            <div key={dish.id} className="col-12 col-md-5 m-1">
+                {/* RenderMenuItem component defined above which passes the dish and onClick as props */}
+                <RenderMenuItem dish={dish} onClick={props.onClick} />
             </div>
         );
-    }
-}
+    });
+
+    return (
+        <div className="container">
+            <div className="row">{menu}</div>
+        </div>
+    );
+};
 
 //Export component from this file
 //So, it can be imported in other files
