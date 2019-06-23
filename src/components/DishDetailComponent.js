@@ -19,7 +19,11 @@ class DishDetail extends Component {
                     <div key={comment.id}>
 						<ul className="list-unstyled">
 							<li>{comment.comment}</li>
-							<li>-- {comment.author}, {comment.date}</li>
+							<li>
+								-- {comment.author}, 
+								{new Intl.DateTimeFormat("en-FI", {year: "numeric", month: "long", day: "2-digit"})
+								.format(new Date(comment.date))}
+							</li>
 						</ul>
                     </div>
                 );
