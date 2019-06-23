@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
-import DishDetail from './DishDetailComponent';
 
-//Create new component Menu
+//Create new component Menu as a pure presentational component
 class Menu extends Component {
 
     constructor(props) {
         super(props);
 
-        //Define a state for component
-        //State stores properties related to a component
-        this.state = {
-            selectedDish: null
-        };
         console.log("Menu component constructor invoked");
     }
 
@@ -22,11 +16,6 @@ class Menu extends Component {
         console.log("Menu component componentDidMount invoked");
     }
 
-    onDishSelect(dish){
-        //Always use this.setState to change the state
-        this.setState({ selectedDish: dish });
-    }
-
     render() {
 
         const menu = this.props.dishes.map((dish) => {
@@ -34,7 +23,8 @@ class Menu extends Component {
                 //React requires a key while rendering a list of items to identify each items uniquely
                 <div key={dish.id} className="col-12 col-md-5 m-1">
                     {/* tag=li indicates these are going to be a list item */}
-                    <Card onClick={() => this.onDishSelect(dish)}>
+                    {/* Pass dishId to onClick prop in Main component which sets the selectedDish state */}
+                    <Card onClick={() => this.props.onClick(dish.id)}>
                         <CardImg width="100%" src={dish.image} alt={dish.description}></CardImg>
                         <CardImgOverlay>
                             <CardTitle>{dish.name}</CardTitle>
@@ -45,14 +35,12 @@ class Menu extends Component {
         });
 
         console.log("Menu component render invoked");
-        console.log('Selected dish is ', this.state.selectedDish);
 
         return (
             <div className="container">
                 <div className="row">
                     {menu}
                 </div>
-                <DishDetail dish={this.state.selectedDish}></DishDetail>
             </div>
         );
     }
