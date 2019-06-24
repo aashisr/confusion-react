@@ -2,7 +2,7 @@ import React from "react";
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from "reactstrap";
 import { Link } from "react-router-dom";
 
-function RenderLeader({ leaders }) {
+function RenderLeaders({ leaders }) {
     const leadersJSX = leaders.map((leader) => {
         return (
             <div key={leader.id} className="col-12 mb-4">
@@ -20,7 +20,11 @@ function RenderLeader({ leaders }) {
         );
     });
 
-    return <div>{leadersJSX}</div>;
+    return (
+        <div className="col-12 row">
+            <Media list>{leadersJSX}</Media>
+        </div>
+    );
 }
 
 function About(props) {
@@ -93,7 +97,7 @@ function About(props) {
                 <div className="col-12">
                     <h2>Corporate Leadership</h2>
                 </div>
-                <RenderLeader leaders={props.leaders} />
+                <RenderLeaders leaders={props.leaders} />
             </div>
         </div>
     );
