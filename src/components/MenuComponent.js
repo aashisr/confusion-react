@@ -1,5 +1,6 @@
 import React from "react";
-import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Link } from "react-router-dom";
 
 //Changed a presentational component to functional component since this componet works only with the props sent by
 //its parent and there are no any local states or lifecycle hooks required
@@ -8,12 +9,14 @@ import { Card, CardImg, CardImgOverlay, CardTitle } from "reactstrap";
 function RenderMenuItem({ dish }) {
     return (
         // tag=li indicates these are going to be a list item
-        //Pass dishId to onClick prop in Main component which sets the selectedDish state
         <Card>
-            <CardImg width="100%" src={dish.image} alt={dish.description} />
-            <CardImgOverlay>
-                <CardTitle>{dish.name}</CardTitle>
-            </CardImgOverlay>
+            {/* Parameters are passed to a link as below enclosed in BACK QUOTES */}
+            <Link to={`/menu/${dish.id}`}>
+                <CardImg width="100%" src={dish.image} alt={dish.description} />
+                <CardImgOverlay>
+                    <CardTitle>{dish.name}</CardTitle>
+                </CardImgOverlay>
+            </Link>
         </Card>
     );
 }
@@ -26,7 +29,7 @@ const Menu = (props) => {
         return (
             //React requires a key while rendering a list of items to identify each items uniquely
             <div key={dish.id} className="col-12 col-md-5 m-1">
-                {/* RenderMenuItem component defined above which passes the dish and onClick as props */}
+                {/* RenderMenuItem component defined above which passes the dish as props */}
                 <RenderMenuItem dish={dish} />
             </div>
         );
@@ -34,6 +37,18 @@ const Menu = (props) => {
 
     return (
         <div className="container">
+            <div className="row">
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <Link to="/home">Home</Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem active>Menu</BreadcrumbItem>
+                </Breadcrumb>
+                <div className="col-12">
+                    <h3>Menu</h3>
+                    <hr />
+                </div>
+            </div>
             <div className="row">{menu}</div>
         </div>
     );

@@ -4,7 +4,6 @@ import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from "reac
 //this componennt is only implemented in this component, so it is defined here
 //Define as a new component file if need to be used in other components
 function RenderCard({ item }) {
-    console.log(item);
     return (
         <Card>
             <CardImg src={item.image} alt={item.name} />

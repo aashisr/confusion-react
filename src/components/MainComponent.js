@@ -4,6 +4,7 @@ import Menu from "./MenuComponent";
 import Contact from "./ContactComponent";
 import Header from "./HeaderComponent";
 import Footer from "./FooterComponent";
+import DishDetail from "./DishDetailComponent";
 import { DISHES } from "../shared/dishes";
 import { COMMENTS } from "../shared/comments";
 import { LEADERS } from "../shared/leaders";
@@ -40,6 +41,19 @@ class Main extends Component {
             );
         };
 
+        // match is one of the three params provided by React router which holds the route and its params info
+        const DishWithId = ({ match }) => {
+            return (
+                // Parse the string dishId to int using parseInt
+                <DishDetail
+                    dish={this.state.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+                    comments={this.state.comments.filter(
+                        (comment) => comment.dishId === parseInt(match.params.dishId, 10),
+                    )}
+                />
+            );
+        };
+
         return (
             <div>
                 <Header />
@@ -52,6 +66,8 @@ class Main extends Component {
                     {/* Render the menu component if route exactly matches to /menu */}
                     {/* To pass props with the component, needs to be defined like below */}
                     <Route exact path="/menu" component={() => <Menu dishes={this.state.dishes} />} />
+
+                    <Route path="/menu/:dishId" component={DishWithId} />
 
                     <Route exact path="/contactus" component={Contact} />
 
