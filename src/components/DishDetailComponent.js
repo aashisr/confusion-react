@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardImg, CardBody, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
+import CommentForm from "./CommentFormComponent";
 
 //Functional component
 
@@ -45,6 +46,7 @@ function RenderComments({ comments }) {
                 <Card className="p-1">
                     <h4>Comments</h4>
                     {commentsJSX}
+                    <CommentForm />
                 </Card>
             </div>
         );

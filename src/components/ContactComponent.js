@@ -88,9 +88,7 @@ class Contact extends Component {
                         <LocalForm onSubmit={(values) => this.handleSubmit(values)}>
                             <Row className="form-group">
                                 <Col md={2}>
-                                    <label htmlFor="firstname" md={2}>
-                                        First Name
-                                    </label>
+                                    <Label htmlFor="firstname">First Name</Label>
                                 </Col>
                                 <Col md={10}>
                                     <Control.text
@@ -119,7 +117,7 @@ class Contact extends Component {
                             </Row>
                             <Row className="form-group">
                                 <Col md={2}>
-                                    <label htmlFor="lastname">Last Name</label>
+                                    <Label htmlFor="lastname">Last Name</Label>
                                 </Col>
                                 <Col md={10}>
                                     <Control.text
@@ -148,7 +146,7 @@ class Contact extends Component {
                             </Row>
                             <Row className="form-group">
                                 <Col md={2}>
-                                    <label htmlFor="telnum">Phone Number</label>
+                                    <Label htmlFor="telnum">Phone Number</Label>
                                 </Col>
                                 <Col md={10}>
                                     <Control.text
@@ -179,7 +177,7 @@ class Contact extends Component {
                             </Row>
                             <Row className="form-group">
                                 <Col md={2}>
-                                    <label htmlFor="email">Email</label>
+                                    <Label htmlFor="email">Email</Label>
                                 </Col>
                                 <Col md={10}>
                                     <Control.text
@@ -222,7 +220,7 @@ class Contact extends Component {
                             </Row>
                             <Row className="form-group">
                                 <Col md={2}>
-                                    <label htmlFor="message">Your Feedback</label>
+                                    <Label htmlFor="message">Your Feedback</Label>
                                 </Col>
                                 <Col md={10}>
                                     <Control.textarea model=".mesasge" id="message" name="message" rows="12" className="form-control" />
