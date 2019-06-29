@@ -20,7 +20,11 @@ import { NavLink } from "react-router-dom";
 
 class Header extends Component {
     constructor(props) {
+        //Always required for a constructor
         super(props);
+
+        //State should be defined in the constructor of a component
+        //State stores properties related to a component
         this.state = {
             isNavOpen: false,
             isModalOpen: false,
