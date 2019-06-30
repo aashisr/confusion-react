@@ -14,7 +14,7 @@ import {
     Form,
     FormGroup,
     Label,
-    Input,
+    Input
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
 
@@ -27,7 +27,7 @@ class Header extends Component {
         //State stores properties related to a component
         this.state = {
             isNavOpen: false,
-            isModalOpen: false,
+            isModalOpen: false
         };
 
         // Bind toggleNav in order ot make it available to use in JSX
@@ -39,13 +39,13 @@ class Header extends Component {
     toggleNav() {
         //Change the state of isNavOpen
         this.setState({
-            isNavOpen: !this.state.isNavOpen,
+            isNavOpen: !this.state.isNavOpen
         });
     }
 
     toggleModal() {
         this.setState({
-            isModalOpen: !this.state.isModalOpen,
+            isModalOpen: !this.state.isModalOpen
         });
     }
 

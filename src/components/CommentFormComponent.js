@@ -11,7 +11,7 @@ class CommentForm extends Component {
         super(props);
 
         this.state = {
-            isModalOpen: false,
+            isModalOpen: false
         };
 
         this.toggleModal = this.toggleModal.bind(this);
@@ -21,14 +21,14 @@ class CommentForm extends Component {
     toggleModal() {
         //Set the isModalOpen to true or false
         this.setState({
-            isModalOpen: !this.state.isModalOpen,
+            isModalOpen: !this.state.isModalOpen
         });
     }
 
     handleCommentSubmit(values) {
+        console.log("Values in handleCommentSubmit: " + JSON.stringify(values));
         this.toggleModal();
-        console.log(JSON.stringify(values));
-        alert(JSON.stringify(values));
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     render() {
@@ -70,7 +70,7 @@ class CommentForm extends Component {
                                         className="form-control"
                                         validators={{
                                             minLength: minLength(3),
-                                            maxLength: maxLength(15),
+                                            maxLength: maxLength(15)
                                         }}
                                     />
                                     <Errors
@@ -80,7 +80,7 @@ class CommentForm extends Component {
                                         messages={{
                                             required: "Required",
                                             minLength: "Must be greater than 2 characters",
-                                            maxLength: "Must be 15 characters or less",
+                                            maxLength: "Must be 15 characters or less"
                                         }}
                                     />
                                 </Col>
