@@ -9,12 +9,15 @@ import About from "./AboutComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addComment, fetchDishes } from "../redux/ActionCreators";
+import { actions } from "react-redux-form";
 
 const mapDispatchToProps = (dispatch) => {
     console.log("mapDispatchToProps dispatch is " + dispatch);
     return {
         addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
-        fetchDishes: () => dispatch(fetchDishes())
+        fetchDishes: () => dispatch(fetchDishes()),
+        // actions.reset is imported from react-redux-form which adds necessary action to reset the form
+        resetFeedbackForm: () => dispatch(actions.reset("feedback"))
     };
 };
 
@@ -80,7 +83,7 @@ class Main extends Component {
                     {/* To pass props with the component, needs to be defined like below */}
                     <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} />} />
                     <Route path="/menu/:dishId" component={DishWithId} />
-                    <Route exact path="/contactus" component={Contact} />
+                    <Route exact path="/contactus" component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
                     <Route exact path="/aboutus" component={() => <About leaders={this.props.leaders} />} />
 
                     {/* Use redirect to specify a default route if routes does not match any above routes */}
