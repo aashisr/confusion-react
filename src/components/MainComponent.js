@@ -8,11 +8,15 @@ import DishDetail from "./DishDetailComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addComment } from "../redux/ActionCreators";
+import { addComment, fetchDishes } from "../redux/ActionCreators";
 
-const mapDispatchToProps = (dispatch) => ({
-    addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))
-});
+const mapDispatchToProps = (dispatch) => {
+    console.log("mapDispatchToProps dispatch is " + dispatch);
+    return {
+        addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment)),
+        fetchDishes: () => dispatch(fetchDishes())
+    };
+};
 
 //Gets the state of the application as parameter from redux store,
 //Maps the redux store state to props and makes it available to use in this component
@@ -27,6 +31,11 @@ const mapStateToProps = (state) => {
 
 //Create new component Main as a container component
 class Main extends Component {
+    // Called just after the component gets mounted into the view of the application
+    componentDidMount() {
+        this.props.fetchDishes();
+    }
+
     //states defined in redux store becomes available as props instead of state because of mapStateToProps function
     render() {
         // declare HomePage component
@@ -34,7 +43,9 @@ class Main extends Component {
             return (
                 // Pass featured dish, promotion and leader from the gven data
                 <Home
-                    dish={this.props.dishes.filter((dish) => dish.featured)[0]}
+                    dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
+                    dishesLoading={this.props.dishes.isLoading}
+                    dishesErrMes={this.props.dishes.dishesErrMes}
                     promotion={this.props.promotions.filter((promotion) => promotion.featured)[0]}
                     leader={this.props.leaders.filter((leader) => leader.featured)[0]}
                 />
@@ -47,7 +58,9 @@ class Main extends Component {
             return (
                 // Parse the string dishId to int using parseInt
                 <DishDetail
-                    dish={this.props.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+                    dish={this.props.dishes.dishes.filter((dish) => dish.id === parseInt(match.params.dishId, 10))[0]}
+                    isLoading={this.props.dishes.isLoading}
+                    errMes={this.props.dishes.dishesErrMes}
                     comments={this.props.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
                     addComment={this.props.addComment}
                 />

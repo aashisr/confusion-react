@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Loading } from "./LoadingComponent";
 
 //Changed a presentational component to functional component since this componet works only with the props sent by
 //its parent and there are no any local states or lifecycle hooks required
@@ -25,7 +26,7 @@ function RenderMenuItem({ dish }) {
 //This const Menu is the component in MainComponent, props is the props passed from MainComponent
 const Menu = (props) => {
     //ForEach dishes array with map function and return individual ment items as react component
-    const menu = props.dishes.map((dish) => {
+    const menu = props.dishes.dishes.map((dish) => {
         return (
             //React requires a key while rendering a list of items to identify each items uniquely
             <div key={dish.id} className="col-12 col-md-5 m-1">
@@ -35,23 +36,41 @@ const Menu = (props) => {
         );
     });
 
-    return (
-        <div className="container">
-            <div className="row">
-                <Breadcrumb>
-                    <BreadcrumbItem>
-                        <Link to="/home">Home</Link>
-                    </BreadcrumbItem>
-                    <BreadcrumbItem active>Menu</BreadcrumbItem>
-                </Breadcrumb>
-                <div className="col-12">
-                    <h3>Menu</h3>
-                    <hr />
+    if (props.dishes.isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
                 </div>
             </div>
-            <div className="row">{menu}</div>
-        </div>
-    );
+        );
+    } else if (props.dishes.errMes) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{props.dishes.errMes}</h4>>
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Breadcrumb>
+                        <BreadcrumbItem>
+                            <Link to="/home">Home</Link>
+                        </BreadcrumbItem>
+                        <BreadcrumbItem active>Menu</BreadcrumbItem>
+                    </Breadcrumb>
+                    <div className="col-12">
+                        <h3>Menu</h3>
+                        <hr />
+                    </div>
+                </div>
+                <div className="row">{menu}</div>
+            </div>
+        );
+    }
 };
 
 //Export component from this file
