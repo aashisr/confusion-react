@@ -26,7 +26,6 @@ class CommentForm extends Component {
     }
 
     handleCommentSubmit(values) {
-        console.log("Values in handleCommentSubmit: " + JSON.stringify(values));
         this.toggleModal();
         this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
     }
@@ -36,19 +35,19 @@ class CommentForm extends Component {
             //React fragments (can be used like this as well <> </>) enables to group bunch of react elements and return it
             <React.Fragment>
                 {/* Button to toggle form modal */}
-                <Button outline onClick={this.toggleModal} className="col-6">
-                    <span className="fa fa-pencil fa-lg">Submit Comment</span>
+                <Button outline onClick={this.toggleModal} className='col-6'>
+                    <span className='fa fa-pencil fa-lg'>Submit Comment</span>
                 </Button>
                 <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
                     <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
                     <ModalBody>
                         <LocalForm onSubmit={(values) => this.handleCommentSubmit(values)}>
-                            <Row className="form-group">
+                            <Row className='form-group'>
                                 <Col xs={12}>
-                                    <Label htmlFor="rating">Rating</Label>
+                                    <Label htmlFor='rating'>Rating</Label>
                                 </Col>
                                 <Col xs={12}>
-                                    <Control.select model=".rating" name="rating" className="form-control">
+                                    <Control.select model='.rating' name='rating' className='form-control'>
                                         <option>1</option>
                                         <option>2</option>
                                         <option>3</option>
@@ -57,26 +56,26 @@ class CommentForm extends Component {
                                     </Control.select>
                                 </Col>
                             </Row>
-                            <Row className="form-group">
+                            <Row className='form-group'>
                                 <Col xs={12}>
-                                    <Label htmlFor="name">Your Name</Label>
+                                    <Label htmlFor='name'>Your Name</Label>
                                 </Col>
                                 <Col xs={12}>
                                     <Control.text
-                                        model=".name"
-                                        id="name"
-                                        name="name"
-                                        placeholder="Your Name"
-                                        className="form-control"
+                                        model='.name'
+                                        id='name'
+                                        name='name'
+                                        placeholder='Your Name'
+                                        className='form-control'
                                         validators={{
                                             minLength: minLength(3),
                                             maxLength: maxLength(15)
                                         }}
                                     />
                                     <Errors
-                                        className="text-danger"
-                                        model=".name"
-                                        show="touched"
+                                        className='text-danger'
+                                        model='.name'
+                                        show='touched'
                                         messages={{
                                             required: "Required",
                                             minLength: "Must be greater than 2 characters",
@@ -85,17 +84,17 @@ class CommentForm extends Component {
                                     />
                                 </Col>
                             </Row>
-                            <Row className="form-group">
+                            <Row className='form-group'>
                                 <Col xs={12}>
-                                    <Label htmlFor="name">Comment</Label>
+                                    <Label htmlFor='name'>Comment</Label>
                                 </Col>
                                 <Col xs={12}>
-                                    <Control.textarea model=".comment" id="comment" name="comment" rows="6" className="form-control" />
+                                    <Control.textarea model='.comment' id='comment' name='comment' rows='6' className='form-control' />
                                 </Col>
                             </Row>
-                            <Row className="form-group">
+                            <Row className='form-group'>
                                 <Col xs={12}>
-                                    <Button type="submit" color="primary">
+                                    <Button type='submit' color='primary'>
                                         Submit
                                     </Button>
                                 </Col>

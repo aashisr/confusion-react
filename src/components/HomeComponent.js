@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle } from "reactstrap";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 //this componennt is only implemented in this component, so it is defined here
 //Define as a new component file if need to be used in other components
@@ -12,7 +13,7 @@ function RenderCard({ item, isLoading, errMes }) {
     } else {
         return (
             <Card>
-                <CardImg src={item.image} alt={item.name} />
+                <CardImg src={baseUrl + item.image} alt={item.name} />
                 <CardBody>
                     <CardTitle>{item.name}</CardTitle>
                     {/* Designation exists only for leader, so render if exists */}
@@ -27,15 +28,15 @@ function RenderCard({ item, isLoading, errMes }) {
 
 function Home(props) {
     return (
-        <div className="container">
-            <div className="row align-items-start">
-                <div className="col-12 col-md m-1">
+        <div className='container'>
+            <div className='row align-items-start'>
+                <div className='col-12 col-md m-1'>
                     <RenderCard item={props.dish} isLoading={props.dishesLoading} errMes={props.dishesErrMes} />
                 </div>
-                <div className="col-12 col-md m-1">
-                    <RenderCard item={props.promotion} />
+                <div className='col-12 col-md m-1'>
+                    <RenderCard item={props.promotion} isLoading={props.promosLoading} errMes={props.promosErrMes} />
                 </div>
-                <div className="col-12 col-md m-1">
+                <div className='col-12 col-md m-1'>
                     <RenderCard item={props.leader} />
                 </div>
             </div>

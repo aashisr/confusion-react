@@ -3,15 +3,16 @@ import { Card, CardImg, CardBody, CardTitle, CardText, Breadcrumb, BreadcrumbIte
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentFormComponent";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 //Functional component
 
 //User defined components always start with capital letters
 function RenderDish({ dish }) {
     return (
-        <div key={dish.id} className="col-12 col-md-5 m-1">
+        <div key={dish.id} className='col-12 col-md-5 m-1'>
             <Card>
-                <CardImg src={dish.image} alt={dish.name} width="100%" />
+                <CardImg src={baseUrl + dish.image} alt={dish.name} width='100%' />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>
@@ -27,7 +28,7 @@ function RenderComments({ comments, addComment, dishId }) {
         const commentsJSX = comments.map((comment) => {
             return (
                 <div key={comment.id}>
-                    <ul className="list-unstyled">
+                    <ul className='list-unstyled'>
                         <li>{comment.comment}</li>
                         <li>
                             -- {comment.author}, &nbsp;
@@ -43,8 +44,8 @@ function RenderComments({ comments, addComment, dishId }) {
         });
 
         return (
-            <div className="col-12 col-md-5 m-1">
-                <Card className="p-1">
+            <div className='col-12 col-md-5 m-1'>
+                <Card className='p-1'>
                     <h4>Comments</h4>
                     {commentsJSX}
                     <CommentForm dishId={dishId} addComment={addComment} />
@@ -57,20 +58,18 @@ function RenderComments({ comments, addComment, dishId }) {
 }
 
 const DishDetail = (props) => {
-    console.log("Props in DishDetail " + JSON.stringify(props));
-
     if (props.isLoading) {
         return (
-            <div className="container">
-                <div className="row">
+            <div className='container'>
+                <div className='row'>
                     <Loading />
                 </div>
             </div>
         );
     } else if (props.errMes) {
         return (
-            <div className="container">
-                <div className="row">
+            <div className='container'>
+                <div className='row'>
                     <h4>{props.errMes}</h4>>
                 </div>
             </div>
@@ -79,23 +78,23 @@ const DishDetail = (props) => {
 
     if (props.dish) {
         return (
-            <div className="container">
-                <div className="row">
+            <div className='container'>
+                <div className='row'>
                     <Breadcrumb>
                         <BreadcrumbItem>
-                            <Link to="/home">Home</Link>
+                            <Link to='/home'>Home</Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem>
-                            <Link to="/menu">Menu</Link>
+                            <Link to='/menu'>Menu</Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem active>{props.dish.name}</BreadcrumbItem>
                     </Breadcrumb>
-                    <div className="col-12">
+                    <div className='col-12'>
                         <h3>{props.dish.name}</h3>
                         <hr />
                     </div>
                 </div>
-                <div className="row">
+                <div className='row'>
                     <RenderDish dish={props.dish} />
                     <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.dishId} />
                 </div>

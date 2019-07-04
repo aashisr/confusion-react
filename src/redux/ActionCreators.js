@@ -1,6 +1,7 @@
-import { DISHES } from "../shared/dishes";
 //Import everything that is being exported from ActionType.js
 import * as ActionTypes from "./ActionTypes";
+import { baseUrl } from "../shared/baseUrl";
+import fetch from "cross-fetch";
 
 //Export the function to add comment as addComment action
 export const addComment = (dishId, rating, author, comment) => ({
@@ -14,16 +15,17 @@ export const addComment = (dishId, rating, author, comment) => ({
     }
 });
 
+//DISHES
+
 //Create fetchDishes as a thunk, returns dispatch as a function
 // Thunk returns function instead of an action object
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true));
 
-    //Delay the dispatching of dishes
-    setTimeout(() => {
-        //Dispacth a call to addDishes function after 2 s
-        dispatch(addDishes(DISHES));
-    }, 2000);
+    //Fetch dishes from server using fetch API, convert the response to json and Dispacth a call to addDishes function
+    return fetch(baseUrl + "dishes")
+        .then((response) => response.json())
+        .then((dishes) => dispatch(addDishes(dishes)));
 };
 
 //This is not a thunk since it is returning an action opject
@@ -47,3 +49,50 @@ export const addDishes = (dishes) => {
         payload: dishes
     };
 };
+
+//COMMENTS
+
+export const fetchComments = () => (dispatch) => {
+    //Fetch comments from server using fetch API, convert the response to json and Dispacth a call to addComments function
+    return fetch(baseUrl + "comments")
+        .then((response) => response.json())
+        .then((comments) => dispatch(addComments(comments)));
+};
+
+export const commentsFailed = (errmes) => {
+    return {
+        type: ActionTypes.COMMENTS_FAILED,
+        payload: errmes
+    };
+};
+
+export const addComments = (comments) => {
+    return {
+        type: ActionTypes.ADD_COMMENTS,
+        payload: comments
+    };
+};
+
+//PROMOS
+
+export const fetchPromos = () => (dispatch) => {
+    dispatch(promosLoading(true));
+
+    return fetch(baseUrl + "promotions")
+        .then((response) => response.json())
+        .then((promos) => dispatch(addPromos(promos)));
+};
+
+export const promosLoading = () => ({
+    type: ActionTypes.PROMOS_LOADING
+});
+
+export const promosFailed = (errmes) => ({
+    type: ActionTypes.PROMOS_FAILED,
+    payload: errmes
+});
+
+export const addPromos = (promos) => ({
+    type: ActionTypes.ADD_PROMOS,
+    payload: promos
+});

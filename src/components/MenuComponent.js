@@ -2,6 +2,7 @@ import React from "react";
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
+import { baseUrl } from "../shared/baseUrl";
 
 //Changed a presentational component to functional component since this componet works only with the props sent by
 //its parent and there are no any local states or lifecycle hooks required
@@ -13,7 +14,7 @@ function RenderMenuItem({ dish }) {
         <Card>
             {/* Parameters are passed to a link as below enclosed in BACK QUOTES */}
             <Link to={`/menu/${dish.id}`}>
-                <CardImg width="100%" src={dish.image} alt={dish.description} />
+                <CardImg width='100%' src={baseUrl + dish.image} alt={dish.description} />
                 <CardImgOverlay>
                     <CardTitle>{dish.name}</CardTitle>
                 </CardImgOverlay>
@@ -29,7 +30,7 @@ const Menu = (props) => {
     const menu = props.dishes.dishes.map((dish) => {
         return (
             //React requires a key while rendering a list of items to identify each items uniquely
-            <div key={dish.id} className="col-12 col-md-5 m-1">
+            <div key={dish.id} className='col-12 col-md-5 m-1'>
                 {/* RenderMenuItem component defined above which passes the dish as props */}
                 <RenderMenuItem dish={dish} />
             </div>
@@ -38,36 +39,36 @@ const Menu = (props) => {
 
     if (props.dishes.isLoading) {
         return (
-            <div className="container">
-                <div className="row">
+            <div className='container'>
+                <div className='row'>
                     <Loading />
                 </div>
             </div>
         );
     } else if (props.dishes.errMes) {
         return (
-            <div className="container">
-                <div className="row">
+            <div className='container'>
+                <div className='row'>
                     <h4>{props.dishes.errMes}</h4>>
                 </div>
             </div>
         );
     } else {
         return (
-            <div className="container">
-                <div className="row">
+            <div className='container'>
+                <div className='row'>
                     <Breadcrumb>
                         <BreadcrumbItem>
-                            <Link to="/home">Home</Link>
+                            <Link to='/home'>Home</Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem active>Menu</BreadcrumbItem>
                     </Breadcrumb>
-                    <div className="col-12">
+                    <div className='col-12'>
                         <h3>Menu</h3>
                         <hr />
                     </div>
                 </div>
-                <div className="row">{menu}</div>
+                <div className='row'>{menu}</div>
             </div>
         );
     }
