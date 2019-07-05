@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import CommentForm from "./CommentFormComponent";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
+import { FadeTransform, Fade, Stagger } from "react-animation-components";
 
 //Functional component
 
@@ -11,43 +12,44 @@ import { baseUrl } from "../shared/baseUrl";
 function RenderDish({ dish }) {
     return (
         <div key={dish.id} className='col-12 col-md-5 m-1'>
-            <Card>
-                <CardImg src={baseUrl + dish.image} alt={dish.name} width='100%' />
-                <CardBody>
-                    <CardTitle>{dish.name}</CardTitle>
-                    <CardText>{dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform in transformProps={{ exitTransform: "scale(0.5) translateY(-50%)" }}>
+                <Card>
+                    <CardImg src={baseUrl + dish.image} alt={dish.name} width='100%' />
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
         </div>
     );
 }
 
 function RenderComments({ comments, postComment, dishId }) {
     if (comments) {
-        //Return a comment
-        const commentsJSX = comments.map((comment) => {
-            return (
-                <div key={comment.id}>
-                    <ul className='list-unstyled'>
-                        <li>{comment.comment}</li>
-                        <li>
-                            -- {comment.author}, &nbsp;
-                            {new Intl.DateTimeFormat("en-FI", {
-                                year: "numeric",
-                                month: "long",
-                                day: "2-digit"
-                            }).format(new Date(comment.date))}
-                        </li>
-                    </ul>
-                </div>
-            );
-        });
-
         return (
             <div className='col-12 col-md-5 m-1'>
                 <Card className='p-1'>
                     <h4>Comments</h4>
-                    {commentsJSX}
+                    <ul className='list-unstyled'>
+                        <Stagger in>
+                            {comments.map((comment) => {
+                                return (
+                                    <Fade in>
+                                        <li>{comment.comment}</li>
+                                        <li>
+                                            -- {comment.author}, &nbsp;
+                                            {new Intl.DateTimeFormat("en-FI", {
+                                                year: "numeric",
+                                                month: "long",
+                                                day: "2-digit"
+                                            }).format(new Date(comment.date))}
+                                        </li>
+                                    </Fade>
+                                );
+                            })}
+                        </Stagger>
+                    </ul>
                     <CommentForm dishId={dishId} postComment={postComment} />
                 </Card>
             </div>

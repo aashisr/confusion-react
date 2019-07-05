@@ -10,6 +10,7 @@ import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { postComment, fetchDishes, fetchPromos, fetchComments, fetchLeaders } from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -83,21 +84,25 @@ class Main extends Component {
             <div>
                 <Header />
 
-                {/* Switch the components bases on the routes defined */}
-                <Switch>
-                    {/* Render the home component if route matches to /home */}
-                    <Route path='/home' component={HomePage} />
+                <TransitionGroup>
+                    <CSSTransition key={this.props.location.key} classNames='page' timeout={300}>
+                        {/* Switch the components bases on the routes defined */}
+                        <Switch>
+                            {/* Render the home component if route matches to /home */}
+                            <Route path='/home' component={HomePage} />
 
-                    {/* Render the menu component if route exactly matches to /menu */}
-                    {/* To pass props with the component, needs to be defined like below */}
-                    <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
-                    <Route path='/menu/:dishId' component={DishWithId} />
-                    <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
-                    <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
+                            {/* Render the menu component if route exactly matches to /menu */}
+                            {/* To pass props with the component, needs to be defined like below */}
+                            <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
+                            <Route path='/menu/:dishId' component={DishWithId} />
+                            <Route exact path='/contactus' component={() => <Contact resetFeedbackForm={this.props.resetFeedbackForm} />} />
+                            <Route exact path='/aboutus' component={() => <About leaders={this.props.leaders} />} />
 
-                    {/* Use redirect to specify a default route if routes does not match any above routes */}
-                    <Redirect to='/home' />
-                </Switch>
+                            {/* Use redirect to specify a default route if routes does not match any above routes */}
+                            <Redirect to='/home' />
+                        </Switch>
+                    </CSSTransition>
+                </TransitionGroup>
 
                 <Footer />
             </div>
