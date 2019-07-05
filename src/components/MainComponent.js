@@ -8,7 +8,7 @@ import DishDetail from "./DishDetailComponent";
 import About from "./AboutComponent";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { addComment, fetchDishes, fetchPromos, fetchComments } from "../redux/ActionCreators";
+import { addComment, fetchDishes, fetchPromos, fetchComments, fetchLeaders } from "../redux/ActionCreators";
 import { actions } from "react-redux-form";
 
 const mapDispatchToProps = (dispatch) => {
@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch) => {
         fetchDishes: () => dispatch(fetchDishes()),
         fetchComments: () => dispatch(fetchComments()),
         fetchPromos: () => dispatch(fetchPromos()),
+        fetchLeaders: () => dispatch(fetchLeaders()),
         // actions.reset is imported from react-redux-form which adds necessary action to reset the form
         resetFeedbackForm: () => dispatch(actions.reset("feedback"))
     };
@@ -40,6 +41,7 @@ class Main extends Component {
         this.props.fetchDishes();
         this.props.fetchComments();
         this.props.fetchPromos();
+        this.props.fetchLeaders();
     }
 
     //states defined in redux store becomes available as props instead of state because of mapStateToProps function
@@ -55,7 +57,9 @@ class Main extends Component {
                     promotion={this.props.promotions.promotions.filter((promotion) => promotion.featured)[0]}
                     promosLoading={this.props.promotions.isLoading}
                     promoErrMes={this.props.promotions.errmes}
-                    leader={this.props.leaders.filter((leader) => leader.featured)[0]}
+                    leader={this.props.leaders.leaders.filter((leader) => leader.featured)[0]}
+                    leadersLoading={this.props.leaders.isLoading}
+                    leadersErrMes={this.props.leaders.errmes}
                 />
             );
         };
