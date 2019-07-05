@@ -3,16 +3,53 @@ import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 import fetch from "cross-fetch";
 
-//Export the function to add comment as addComment action
-export const addComment = (dishId, rating, author, comment) => ({
-    type: ActionTypes.ADD_COMMENT,
-    // Data to be added as comment sent as payload
-    payload: {
+//Export the function to add comment as postComment action
+// Thunk returns function instead of an action object
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+    const newComment = {
         dishId: dishId,
         rating: rating,
         author: author,
         comment: comment
-    }
+    };
+    newComment.date = new Date().toISOString();
+
+    //POST the comment to json-server using fetch's post operation
+    return fetch(baseUrl + "comments", {
+        method: "POST",
+        body: JSON.stringify(newComment),
+        headers: {
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    var error = new Error("Error " + response.status + ": " + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                var errmes = new Error(error.message);
+                throw errmes;
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => dispatch(addComment(response)))
+        .catch((error) => {
+            console.log("Post comment ", error.message);
+            alert("Error in posting comment. " + error.message);
+        });
+};
+
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    // Data to be added as comment sent as payload
+    payload: comment
 });
 
 //DISHES

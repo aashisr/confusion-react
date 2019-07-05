@@ -11,9 +11,6 @@ export const Comments = (state = { errmes: null, comments: [] }, action) => {
 
         case ActionTypes.ADD_COMMENT:
             var comment = action.payload;
-            //Comment id not needed when connected to server
-            comment.id = state.comments.length;
-            comment.date = new Date().toISOString();
 
             //Can not modify the state sent as parameter, so concat (immutable operation)
             return { ...state, comments: state.comments.concat(comment) };

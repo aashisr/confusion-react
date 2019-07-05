@@ -22,7 +22,7 @@ function RenderDish({ dish }) {
     );
 }
 
-function RenderComments({ comments, addComment, dishId }) {
+function RenderComments({ comments, postComment, dishId }) {
     if (comments) {
         //Return a comment
         const commentsJSX = comments.map((comment) => {
@@ -48,7 +48,7 @@ function RenderComments({ comments, addComment, dishId }) {
                 <Card className='p-1'>
                     <h4>Comments</h4>
                     {commentsJSX}
-                    <CommentForm dishId={dishId} addComment={addComment} />
+                    <CommentForm dishId={dishId} postComment={postComment} />
                 </Card>
             </div>
         );
@@ -96,7 +96,7 @@ const DishDetail = (props) => {
                 </div>
                 <div className='row'>
                     <RenderDish dish={props.dish} />
-                    <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.dish.dishId} />
+                    <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id} />
                 </div>
             </div>
         );

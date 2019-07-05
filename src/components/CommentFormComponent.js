@@ -27,7 +27,7 @@ class CommentForm extends Component {
 
     handleCommentSubmit(values) {
         this.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+        this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
     }
 
     render() {
@@ -58,13 +58,13 @@ class CommentForm extends Component {
                             </Row>
                             <Row className='form-group'>
                                 <Col xs={12}>
-                                    <Label htmlFor='name'>Your Name</Label>
+                                    <Label htmlFor='author'>Your Name</Label>
                                 </Col>
                                 <Col xs={12}>
                                     <Control.text
-                                        model='.name'
-                                        id='name'
-                                        name='name'
+                                        model='.author'
+                                        id='author'
+                                        name='author'
                                         placeholder='Your Name'
                                         className='form-control'
                                         validators={{
