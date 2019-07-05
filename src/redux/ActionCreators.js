@@ -24,8 +24,29 @@ export const fetchDishes = () => (dispatch) => {
 
     //Fetch dishes from server using fetch API, convert the response to json and Dispacth a call to addDishes function
     return fetch(baseUrl + "dishes")
+        .then(
+            // Receive response from the server
+            (response) => {
+                //Handle the errors
+                // if response.ok is true, then the request was successful
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    error.response = response;
+                    //Throw the error to the catch function
+                    throw error;
+                }
+            },
+            // Could not receive response from the server
+            (error) => {
+                let errmes = new Error(error.message);
+                throw errmes;
+            }
+        )
         .then((response) => response.json())
-        .then((dishes) => dispatch(addDishes(dishes)));
+        .then((dishes) => dispatch(addDishes(dishes)))
+        .catch((error) => dispatch(dishesFailed(error.message)));
 };
 
 //This is not a thunk since it is returning an action opject
@@ -55,8 +76,29 @@ export const addDishes = (dishes) => {
 export const fetchComments = () => (dispatch) => {
     //Fetch comments from server using fetch API, convert the response to json and Dispacth a call to addComments function
     return fetch(baseUrl + "comments")
+        .then(
+            // Receive response from the server
+            (response) => {
+                //Handle the errors
+                // if response.ok is true, then the request was successful
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    error.response = response;
+                    //Throw the error to the catch function
+                    throw error;
+                }
+            },
+            // Could not receive response from the server
+            (error) => {
+                let errmes = new Error(error.message);
+                throw errmes;
+            }
+        )
         .then((response) => response.json())
-        .then((comments) => dispatch(addComments(comments)));
+        .then((comments) => dispatch(addComments(comments)))
+        .catch((error) => dispatch(commentsFailed(error.message)));
 };
 
 export const commentsFailed = (errmes) => {
@@ -79,8 +121,29 @@ export const fetchPromos = () => (dispatch) => {
     dispatch(promosLoading(true));
 
     return fetch(baseUrl + "promotions")
+        .then(
+            // Receive response from the server
+            (response) => {
+                //Handle the errors
+                // if response.ok is true, then the request was successful
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    error.response = response;
+                    //Throw the error to the catch function
+                    throw error;
+                }
+            },
+            // Could not receive response from the server
+            (error) => {
+                let errmes = new Error(error.message);
+                throw errmes;
+            }
+        )
         .then((response) => response.json())
-        .then((promos) => dispatch(addPromos(promos)));
+        .then((promos) => dispatch(addPromos(promos)))
+        .catch((error) => dispatch(promosFailed(error.message)));
 };
 
 export const promosLoading = () => ({
