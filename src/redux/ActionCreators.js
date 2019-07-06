@@ -28,13 +28,13 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    var error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error("Error " + response.status + ": " + response.statusText);
                     error.response = response;
                     throw error;
                 }
             },
             (error) => {
-                var errmes = new Error(error.message);
+                let errmes = new Error(error.message);
                 throw errmes;
             }
         )
@@ -241,5 +241,57 @@ export const leadersFailed = (errmes) => {
     return {
         type: ActionTypes.LEADERS_FAILED,
         payload: errmes
+    };
+};
+
+export const postFeedback = (firstName, lastName, telnum, email, agree, contactType, message) => (dispatch) => {
+    //Create a javascript object for feedback
+    const newFeedback = {
+        firstName: firstName,
+        lastName: lastName,
+        telnum: telnum,
+        email: email,
+        agree: agree,
+        contactType: contactType,
+        message: message
+    };
+    newFeedback.date = new Date().toISOString;
+
+    //POST the feedback to json-server using fetch's post operation
+    return fetch(baseUrl + "feedback", {
+        method: "POST",
+        body: JSON.stringify(newFeedback),
+        header: {
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                let errmes = new Error(error.message);
+                throw errmes;
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => dispatch(addFeedback(response)))
+        .catch((error) => {
+            console.log("Post comment ", error.message);
+            alert("Error in posting comment. " + error.message);
+        });
+};
+
+export const addFeedback = (feedback) => {
+    return {
+        type: ActionTypes.ADD_FEEDBACK,
+        payload: feedback
     };
 };
