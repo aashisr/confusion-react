@@ -244,30 +244,31 @@ export const leadersFailed = (errmes) => {
     };
 };
 
-export const postFeedback = (firstName, lastName, telnum, email, agree, contactType, message) => (dispatch) => {
+export const postFeedback = (firstname, lastname, telnum, email, agree, contactType, message) => (dispatch) => {
     //Create a javascript object for feedback
     const newFeedback = {
-        firstName: firstName,
-        lastName: lastName,
+        firstname: firstname,
+        lastname: lastname,
         telnum: telnum,
         email: email,
         agree: agree,
         contactType: contactType,
         message: message
     };
-    newFeedback.date = new Date().toISOString;
+    newFeedback.date = new Date().toISOString();
 
     //POST the feedback to json-server using fetch's post operation
     return fetch(baseUrl + "feedback", {
         method: "POST",
         body: JSON.stringify(newFeedback),
-        header: {
+        headers: {
             "Content-Type": "application/json"
         },
         credentials: "same-origin"
     })
         .then(
             (response) => {
+                console.log("Response postFeedback " + JSON.stringify(response));
                 if (response.ok) {
                     return response;
                 } else {

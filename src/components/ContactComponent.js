@@ -23,7 +23,7 @@ class Contact extends Component {
 
     handleSubmit(values) {
         alert("Current state is: " + JSON.stringify(values));
-        this.props.postFeedback(values.firstname, values.lastName, values.telnum, values.email, values.agree, values.contactType, values.message);
+        this.props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message);
         this.props.resetFeedbackForm();
     }
 
@@ -225,7 +225,7 @@ class Contact extends Component {
                                     <Label htmlFor='message'>Your Feedback</Label>
                                 </Col>
                                 <Col md={10}>
-                                    <Control.textarea model='.mesasge' id='message' name='message' rows='12' className='form-control' />
+                                    <Control.textarea model='.message' id='message' name='message' rows='12' className='form-control' />
                                 </Col>
                             </Row>
                             <Row className='form-group'>
