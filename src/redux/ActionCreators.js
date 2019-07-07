@@ -365,3 +365,24 @@ export const loginUser = (creds) => (dispatch) => {
         })
         .catch((error) => dispatch(loginFailure(error.message)));
 };
+
+export const requestLogout = () => {
+    return {
+        type: ActionTypes.LOGOUT_REQUEST
+    };
+};
+
+export const receiveLogout = () => {
+    return {
+        type: ActionTypes.LOGOUT_SUCCESS
+    };
+};
+
+export const logoutUser = () => (dispatch) => {
+    dispatch(requestLogout());
+
+    // Remove the token and user's credentials from local storage
+    localStorage.removeItem('token');
+    localStorage.removeItem('creds');
+    dispatch(receiveLogout());
+};
