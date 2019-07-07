@@ -101,14 +101,14 @@ class Header extends Component {
                                     {!this.props.isAuthenticated ? (
                                         <Button outline onClick={this.toggleModal}>
                                             <span className='fa fa-sign-in fa-lg'>Login</span>
-                                            {this.props.auth.isFetching ? <span className='fa fa-spinner fa-pulse fa-fw' /> : null}
+                                            {this.props.auth.isLoading ? <span className='fa fa-spinner fa-pulse fa-fw' /> : null}
                                         </Button>
                                     ) : (
                                         <div>
                                             <div className='navbar-text mr-3'>{this.props.auth.user.username}</div>
                                             <Button outline onClick={this.handleLogout}>
                                                 <span className='fa fa-sign-out fa-lg'>Logout</span>
-                                                {this.props.auth.isFetching ? <span className='fa fa-spinner fa-pulse fa-fw' /> : null}
+                                                {this.props.auth.isLoading ? <span className='fa fa-spinner fa-pulse fa-fw' /> : null}
                                             </Button>
                                         </div>
                                     )}

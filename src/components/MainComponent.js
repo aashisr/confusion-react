@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import Home from "./HomeComponent";
-import Menu from "./MenuComponent";
-import Contact from "./ContactComponent";
-import Header from "./HeaderComponent";
-import Footer from "./FooterComponent";
-import DishDetail from "./DishDetailComponent";
-import About from "./AboutComponent";
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-import { postComment, postFeedback, fetchDishes, fetchPromos, fetchComments, fetchLeaders } from "../redux/ActionCreators";
-import { actions } from "react-redux-form";
-import { TransitionGroup, CSSTransition } from "react-transition-group";
+import React, { Component } from 'react';
+import Home from './HomeComponent';
+import Menu from './MenuComponent';
+import Contact from './ContactComponent';
+import Header from './HeaderComponent';
+import Footer from './FooterComponent';
+import DishDetail from './DishDetailComponent';
+import About from './AboutComponent';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { postComment, postFeedback, fetchDishes, fetchPromos, fetchComments, fetchLeaders, loginUser } from '../redux/ActionCreators';
+import { actions } from 'react-redux-form';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchPromos: () => dispatch(fetchPromos()),
         fetchLeaders: () => dispatch(fetchLeaders()),
         // actions.reset is imported from react-redux-form which adds necessary action to reset the form
-        resetFeedbackForm: () => dispatch(actions.reset("feedback"))
+        resetFeedbackForm: () => dispatch(actions.reset('feedback')),
+        loginUser: (creds) => dispatch(loginUser(creds))
     };
 };
 
@@ -33,7 +34,8 @@ const mapStateToProps = (state) => {
         dishes: state.dishes,
         comments: state.comments,
         promotions: state.promotions,
-        leaders: state.leaders
+        leaders: state.leaders,
+        auth: state.auth
     };
 };
 
@@ -84,7 +86,7 @@ class Main extends Component {
 
         return (
             <div>
-                <Header />
+                <Header auth={this.props.auth} loginUser={this.props.loginUser} />
 
                 <TransitionGroup>
                     <CSSTransition key={this.props.location.key} classNames='page' timeout={300}>

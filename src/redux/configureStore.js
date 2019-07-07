@@ -1,12 +1,13 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { createForms } from "react-redux-form";
-import thunk from "redux-thunk";
-import logger from "redux-logger";
-import { Dishes } from "./dishes";
-import { Comments } from "./comments";
-import { Promotions } from "./promotions";
-import { Leaders } from "./leaders";
-import { InitialFeedback } from "./forms";
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createForms } from 'react-redux-form';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+import { Dishes } from './dishes';
+import { Comments } from './comments';
+import { Promotions } from './promotions';
+import { Leaders } from './leaders';
+import { InitialFeedback } from './forms';
+import { Auth } from './auth';
 
 export const ConfigureStore = () => {
     //Create a store with redux createStore function
@@ -18,6 +19,7 @@ export const ConfigureStore = () => {
             comments: Comments,
             promotions: Promotions,
             leaders: Leaders,
+            auth: Auth,
             // Adds necessary reducer function and state information into createStore,
             // react-redux-form adds reducers, action creators etc by itself
             ...createForms({
