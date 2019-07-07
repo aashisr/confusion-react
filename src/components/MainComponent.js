@@ -99,6 +99,8 @@ class Main extends Component {
                     comments={this.props.comments.comments.filter((comment) => comment.dishId === parseInt(match.params.dishId, 10))}
                     commentsErrMes={this.props.comments.errmes}
                     postComment={this.props.postComment}
+                    favorite={this.props.favorites.favorites.dishes.some((dish) => dish._id === match.params.dishId)}
+                    postFavorite={this.props.postFavorite}
                 />
             );
         };

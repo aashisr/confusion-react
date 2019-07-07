@@ -1,20 +1,25 @@
-import React from "react";
-import { Card, CardImg, CardBody, CardTitle, CardText, Breadcrumb, BreadcrumbItem } from "reactstrap";
-import { Link } from "react-router-dom";
-import CommentForm from "./CommentFormComponent";
-import { Loading } from "./LoadingComponent";
-import { baseUrl } from "../shared/baseUrl";
-import { FadeTransform, Fade, Stagger } from "react-animation-components";
+import React from 'react';
+import { Card, CardImg, CardBody, CardTitle, CardText, CardImgOverlay, Breadcrumb, BreadcrumbItem, Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import CommentForm from './CommentFormComponent';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 //Functional component
 
 //User defined components always start with capital letters
-function RenderDish({ dish }) {
+function RenderDish({ dish, favorite, postFavorite }) {
     return (
         <div key={dish.id} className='col-12 col-md-5 m-1'>
-            <FadeTransform in transformProps={{ exitTransform: "scale(0.5) translateY(-50%)" }}>
+            <FadeTransform in transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}>
                 <Card>
-                    <CardImg src={baseUrl + dish.image} alt={dish.name} width='100%' />
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} width='100%' />
+                    <CardImgOverlay>
+                        <Button outline color='primary' onClick={() => (favorite ? console.log('Already favorite') : postFavorite(dish._id))}>
+                            {favorite ? <span className='fa fa-heart' /> : <span className='fa fa-heart-o' />}
+                        </Button>
+                    </CardImgOverlay>
                     <CardBody>
                         <CardTitle>{dish.name}</CardTitle>
                         <CardText>{dish.description}</CardText>
@@ -39,10 +44,10 @@ function RenderComments({ comments, postComment, dishId }) {
                                         <li>{comment.comment}</li>
                                         <li>
                                             -- {comment.author}, &nbsp;
-                                            {new Intl.DateTimeFormat("en-FI", {
-                                                year: "numeric",
-                                                month: "long",
-                                                day: "2-digit"
+                                            {new Intl.DateTimeFormat('en-FI', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: '2-digit'
                                             }).format(new Date(comment.date))}
                                         </li>
                                     </Fade>
@@ -97,7 +102,7 @@ const DishDetail = (props) => {
                     </div>
                 </div>
                 <div className='row'>
-                    <RenderDish dish={props.dish} />
+                    <RenderDish dish={props.dish} favorite={props.favorite} postFavorite={props.postFavorite} />
                     <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.dish.id} />
                 </div>
             </div>
