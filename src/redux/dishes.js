@@ -1,4 +1,4 @@
-import * as ActionTypes from "./ActionTypes";
+import * as ActionTypes from './ActionTypes';
 
 //Configure according to different action types
 export const Dishes = (state = { isLoading: true, errmes: null, dishes: [] }, action) => {

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Home from './HomeComponent';
 import Menu from './MenuComponent';
+import Favorites from './FavoriteComponent';
 import Contact from './ContactComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
@@ -8,7 +9,19 @@ import DishDetail from './DishDetailComponent';
 import About from './AboutComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { postComment, postFeedback, fetchDishes, fetchPromos, fetchComments, fetchLeaders, loginUser } from '../redux/ActionCreators';
+import {
+    postComment,
+    postFeedback,
+    fetchDishes,
+    fetchPromos,
+    fetchComments,
+    fetchLeaders,
+    loginUser,
+    logoutUser,
+    fetchFavorites,
+    postFavorite,
+    deleteFavorite
+} from '../redux/ActionCreators';
 import { actions } from 'react-redux-form';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
@@ -23,7 +36,11 @@ const mapDispatchToProps = (dispatch) => {
         fetchLeaders: () => dispatch(fetchLeaders()),
         // actions.reset is imported from react-redux-form which adds necessary action to reset the form
         resetFeedbackForm: () => dispatch(actions.reset('feedback')),
-        loginUser: (creds) => dispatch(loginUser(creds))
+        loginUser: (creds) => dispatch(loginUser(creds)),
+        logoutUser: () => dispatch(logoutUser()),
+        fetchFavorites: () => dispatch(fetchFavorites()),
+        postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+        deleteFavorite: (dishId) => dispatch(deleteFavorite(dishId))
     };
 };
 
@@ -35,6 +52,7 @@ const mapStateToProps = (state) => {
         comments: state.comments,
         promotions: state.promotions,
         leaders: state.leaders,
+        favorites: state.favorites,
         auth: state.auth
     };
 };
@@ -47,6 +65,7 @@ class Main extends Component {
         this.props.fetchComments();
         this.props.fetchPromos();
         this.props.fetchLeaders();
+        this.props.fetchFavorites();
     }
 
     //states defined in redux store becomes available as props instead of state because of mapStateToProps function
@@ -84,6 +103,22 @@ class Main extends Component {
             );
         };
 
+        // Create a PrivateRoute component which disables access to the component for unauthorized users
+        const PrivateRoute = ({ component: Component, ...rest }) => {
+            return (
+                <Route
+                    {...rest}
+                    render={(props) =>
+                        this.props.auth.isAuthenticated ? (
+                            <Component {...props} />
+                        ) : (
+                            <Redirect to={{ pathname: '/home', state: { from: props.location } }} />
+                        )
+                    }
+                />
+            );
+        };
+
         return (
             <div>
                 <Header auth={this.props.auth} loginUser={this.props.loginUser} />
@@ -99,6 +134,11 @@ class Main extends Component {
                             {/* To pass props with the component, needs to be defined like below */}
                             <Route exact path='/menu' component={() => <Menu dishes={this.props.dishes} />} />
                             <Route path='/menu/:dishId' component={DishWithId} />
+                            <PrivateRoute
+                                exact
+                                path='/favorites'
+                                component={() => <Favorites favorites={this.props.favorites} deleteFavorite={this.props.deleteFavorite} />}
+                            />
                             <Route
                                 exact
                                 path='/contactus'

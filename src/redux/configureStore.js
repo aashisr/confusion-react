@@ -6,6 +6,7 @@ import { Dishes } from './dishes';
 import { Comments } from './comments';
 import { Promotions } from './promotions';
 import { Leaders } from './leaders';
+import { Favorites } from './favorites';
 import { InitialFeedback } from './forms';
 import { Auth } from './auth';
 
@@ -19,6 +20,7 @@ export const ConfigureStore = () => {
             comments: Comments,
             promotions: Promotions,
             leaders: Leaders,
+            favorites: Favorites,
             auth: Auth,
             // Adds necessary reducer function and state information into createStore,
             // react-redux-form adds reducers, action creators etc by itself
