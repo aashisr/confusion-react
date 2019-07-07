@@ -1,7 +1,7 @@
 //Import everything that is being exported from ActionType.js
-import * as ActionTypes from "./ActionTypes";
-import { baseUrl } from "../shared/baseUrl";
-import fetch from "cross-fetch";
+import * as ActionTypes from './ActionTypes';
+import { baseUrl } from '../shared/baseUrl';
+import fetch from 'cross-fetch';
 
 //Export the function to add comment as postComment action
 // Thunk returns function instead of an action object
@@ -15,20 +15,20 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
     newComment.date = new Date().toISOString();
 
     //POST the comment to json-server using fetch's post operation
-    return fetch(baseUrl + "comments", {
-        method: "POST",
+    return fetch(baseUrl + 'comments', {
+        method: 'POST',
         body: JSON.stringify(newComment),
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         },
-        credentials: "same-origin"
+        credentials: 'same-origin'
     })
         .then(
             (response) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
                     error.response = response;
                     throw error;
                 }
@@ -41,8 +41,8 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
         .then((response) => response.json())
         .then((response) => dispatch(addComment(response)))
         .catch((error) => {
-            console.log("Post comment ", error.message);
-            alert("Error in posting comment. " + error.message);
+            console.log('Post comment ', error.message);
+            alert('Error in posting comment. ' + error.message);
         });
 };
 
@@ -60,7 +60,7 @@ export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true));
 
     //Fetch dishes from server using fetch API, convert the response to json and Dispacth a call to addDishes function
-    return fetch(baseUrl + "dishes")
+    return fetch(baseUrl + 'dishes')
         .then(
             // Receive response from the server
             (response) => {
@@ -69,7 +69,7 @@ export const fetchDishes = () => (dispatch) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
                     error.response = response;
                     //Throw the error to the catch function
                     throw error;
@@ -112,7 +112,7 @@ export const addDishes = (dishes) => {
 
 export const fetchComments = () => (dispatch) => {
     //Fetch comments from server using fetch API, convert the response to json and Dispacth a call to addComments function
-    return fetch(baseUrl + "comments")
+    return fetch(baseUrl + 'comments')
         .then(
             // Receive response from the server
             (response) => {
@@ -121,7 +121,7 @@ export const fetchComments = () => (dispatch) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
                     error.response = response;
                     //Throw the error to the catch function
                     throw error;
@@ -157,7 +157,7 @@ export const addComments = (comments) => {
 export const fetchPromos = () => (dispatch) => {
     dispatch(promosLoading(true));
 
-    return fetch(baseUrl + "promotions")
+    return fetch(baseUrl + 'promotions')
         .then(
             // Receive response from the server
             (response) => {
@@ -166,7 +166,7 @@ export const fetchPromos = () => (dispatch) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
                     error.response = response;
                     //Throw the error to the catch function
                     throw error;
@@ -201,13 +201,13 @@ export const addPromos = (promos) => ({
 export const fetchLeaders = () => (dispatch) => {
     dispatch(leadersLoading(true));
 
-    return fetch(baseUrl + "leaders")
+    return fetch(baseUrl + 'leaders')
         .then(
             (response) => {
                 if (response.ok) {
                     return response;
                 } else {
-                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
                     error.response = response;
                     throw error;
                 }
@@ -258,21 +258,21 @@ export const postFeedback = (firstname, lastname, telnum, email, agree, contactT
     newFeedback.date = new Date().toISOString();
 
     //POST the feedback to json-server using fetch's post operation
-    return fetch(baseUrl + "feedback", {
-        method: "POST",
+    return fetch(baseUrl + 'feedback', {
+        method: 'POST',
         body: JSON.stringify(newFeedback),
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         },
-        credentials: "same-origin"
+        credentials: 'same-origin'
     })
         .then(
             (response) => {
-                console.log("Response postFeedback " + JSON.stringify(response));
+                console.log('Response postFeedback ' + JSON.stringify(response));
                 if (response.ok) {
                     return response;
                 } else {
-                    let error = new Error("Error " + response.status + ": " + response.statusText);
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
                     error.response = response;
                     throw error;
                 }
@@ -285,8 +285,8 @@ export const postFeedback = (firstname, lastname, telnum, email, agree, contactT
         .then((response) => response.json())
         .then((response) => dispatch(addFeedback(response)))
         .catch((error) => {
-            console.log("Post comment ", error.message);
-            alert("Error in posting comment. " + error.message);
+            console.log('Post comment ', error.message);
+            alert('Error in posting comment. ' + error.message);
         });
 };
 
@@ -295,4 +295,73 @@ export const addFeedback = (feedback) => {
         type: ActionTypes.ADD_FEEDBACK,
         payload: feedback
     };
+};
+
+// USER AUTHORIZATION
+
+export const requestLogin = (creds) => {
+    return {
+        type: ActionTypes.LOGIN_REQUEST,
+        creds
+    };
+};
+
+export const receiveLogin = (response) => {
+    return {
+        type: ActionTypes.LOGIN_SUCCESS,
+        token: response.token
+    };
+};
+
+export const loginFailure = (message) => {
+    return {
+        type: ActionTypes.LOGIN_FAILURE,
+        message
+    };
+};
+
+export const loginUser = (creds) => (dispatch) => {
+    // Dispatch requestLogin to start the call to the login API
+    dispatch(requestLogin(creds));
+
+    // fetch POST request to login route in the server
+    return fetch(baseUrl + 'users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(creds)
+    })
+        .then(
+            (response) => {
+                if (response.ok) {
+                    return response;
+                } else {
+                    let error = new Error('Error ' + response.status + ': ' + response.statusText);
+                    error.response = response;
+                    throw error;
+                }
+            },
+            (error) => {
+                throw error;
+            }
+        )
+        .then((response) => response.json())
+        .then((response) => {
+            // response.success is set as true or false in server
+            if (response.success) {
+                // If login was successful, set the token received from server in local storage
+                localStorage.setItem('token', response.token);
+                // Also store the user's credentials in local storage
+                localStorage.setItem('creds', JSON.stringify(creds));
+
+                // Dispatch the success action
+                dispatch(receiveLogin(response));
+            } else {
+                let error = new Error('Error ' + response.status + ': ' + response.statusText);
+                error.response = response;
+                throw error;
+            }
+        })
+        .catch((error) => dispatch(loginFailure(error.message)));
 };
